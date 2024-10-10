@@ -1,0 +1,16 @@
+{
+    "name": "RickAndMemoryEditor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:229861398d29c5f498963973f7fce181"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
