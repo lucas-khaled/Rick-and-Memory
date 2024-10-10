@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   provider:
     rid: -2
-  avaiableModes: []
+  avaiableModes:
+  - rid: 8642854335326191634
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 8642854335326191634
+      type: {class: NormalModeManager, ns: RickAndMemory, asm: RickAndMemory}
+      data: 
