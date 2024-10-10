@@ -16,7 +16,8 @@ namespace RickAndMemory.UI
 
         [Header("Modes")]
         [SerializeField] private Transform modesButtonContent;
-        [SerializeField] private ModeButton modeButtonPrefab;
+        [SerializeField] private ToggleGroup modesToggleGroup;
+        [SerializeField] private ModeToggle modeButtonPrefab;
 
         private CanvasGroup canvasGroup;
         private Layout actualSelectedLayout;
@@ -39,7 +40,7 @@ namespace RickAndMemory.UI
             foreach(var mode in modes)
             {
                 var modeButton = Instantiate(modeButtonPrefab, modesButtonContent);
-                modeButton.SetMode(mode);
+                modeButton.SetMode(mode, modesToggleGroup);
                 modeButton.modeSelected += ModeSelected;
             }
         }
