@@ -17,9 +17,10 @@ namespace RickAndMemory
         private IPanel activePanel;
 
 
-        public override void Initialize(Action<Layout, IModeManager> callback)
+        public override void Initialize(Action<Layout, IModeManager> callback, IModeManager[] avaliableModes)
         {
             SetAsActivePanel(gameSelectionPanel);
+            gameSelectionPanel.SetModes(avaliableModes);
             gameSelectionPanel.SetStartGameCallback(callback);
         }
 

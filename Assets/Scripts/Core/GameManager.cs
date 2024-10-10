@@ -11,18 +11,19 @@ namespace RickAndMemory.Core
     {
         [SerializeField]
         private BaseMenuManager uiManager;
-        private ICardInfoProvider provider;
+        [SerializeField]
+        private GameSetup gameSetup;
 
         private void Awake()
         {
-            uiManager.Initialize(StartGame);
+            uiManager.Initialize(StartGame, gameSetup.avaiableModes);
         }
 
         public async void StartGame(Layout layout, IModeManager modeManager) 
         {
             uiManager.SetLoading(true);
 
-            CardInfo[] cardInfos = await provider.GetCards(layout.Amount);
+            CardInfo[] cardInfos = await gameSetup.provider.GetCards(layout.Amount);
 
             modeManager.SetGameEndedCallback(uiManager.SetEndGame);
             modeManager.StartGame(layout, cardInfos);

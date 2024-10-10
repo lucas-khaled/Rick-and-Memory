@@ -12,3 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 169a35c587b65e1479d2fb0dd2256a27, type: 3}
   m_Name: GameSetup
   m_EditorClassIdentifier: 
+  provider:
+    rid: -2
+  avaiableModes: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

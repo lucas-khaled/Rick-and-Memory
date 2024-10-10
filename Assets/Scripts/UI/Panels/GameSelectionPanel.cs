@@ -10,12 +10,17 @@ namespace RickAndMemory.UI
     [RequireComponent(typeof(CanvasGroup))]
     public class GameSelectionPanel : MonoBehaviour, IPanel
     {
+        [Header("Layout")]
         [SerializeField] private TMP_Dropdown layoutWidthDropdown;
         [SerializeField] private TMP_Dropdown layoutHeightDropdown;
 
+        [Header("Modes")]
+        [SerializeField] private Transform modesButtonContent;
+        [SerializeField] private ModeButton modeButtonPrefab;
+
         private CanvasGroup canvasGroup;
         private Layout actualSelectedLayout;
-        private IModeManager gameMode;
+        private IModeManager selectedGameMode;
 
         private Action<Layout, IModeManager> startGameCallback;
 
@@ -27,6 +32,21 @@ namespace RickAndMemory.UI
         public void Show()
         {
             canvasGroup.alpha = 1;
+        }
+
+        public void SetModes(IModeManager[] modes) 
+        {
+            foreach(var mode in modes)
+            {
+                var modeButton = Instantiate(modeButtonPrefab, modesButtonContent);
+                modeButton.SetMode(mode);
+                modeButton.modeSelected += ModeSelected;
+            }
+        }
+
+        private void ModeSelected(IModeManager mode)
+        {
+            selectedGameMode = mode;
         }
 
         public void SetStartGameCallback(Action<Layout, IModeManager> callback) 
@@ -61,7 +81,7 @@ namespace RickAndMemory.UI
 
         public void StartGame()
         {
-            startGameCallback?.Invoke(actualSelectedLayout, null);
+            startGameCallback?.Invoke(actualSelectedLayout, selectedGameMode);
         }
     }
 }
