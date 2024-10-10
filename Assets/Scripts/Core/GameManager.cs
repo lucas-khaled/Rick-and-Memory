@@ -2,6 +2,7 @@ using RickAndMemory.Data;
 using RickAndMemory.Modes;
 using RickAndMemory.Providers;
 using RickAndMemory.UI;
+using System;
 using UnityEngine;
 
 namespace RickAndMemory.Core
@@ -9,11 +10,18 @@ namespace RickAndMemory.Core
     public class GameManager : MonoBehaviour
     {
         private ICardInfoProvider provider;
-        private IMainUIManager uiManager;
+        private IMenuManager uiManager;
 
         private void Awake()
         {
+            GetInterfaces();
             uiManager.Initialize(StartGame);
+        }
+
+        private void GetInterfaces()
+        {
+            uiManager = transform.GetComponentInChildren<IMenuManager>();
+            provider = transform.GetComponentInChildren<ICardInfoProvider>();
         }
 
         public async void StartGame(Layout layout, IModeManager modeManager) 
@@ -27,5 +35,22 @@ namespace RickAndMemory.Core
 
             uiManager.SetLoading(false);
         }
+
+        #region Test
+        bool isLoading = false;
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.E)) 
+            {
+                uiManager.SetEndGame("The game is over in a test!");
+            }
+
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                isLoading = !isLoading;
+                uiManager.SetLoading(isLoading);
+            }
+        }
+        #endregion
     }
 }
