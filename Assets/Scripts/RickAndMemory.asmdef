@@ -2,7 +2,7 @@
     "name": "RickAndMemory",
     "rootNamespace": "RickAndMemory",
     "references": [
-        ""
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
