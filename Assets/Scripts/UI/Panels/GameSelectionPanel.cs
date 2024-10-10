@@ -37,11 +37,13 @@ namespace RickAndMemory.UI
 
         public void SetModes(IModeManager[] modes) 
         {
+            selectedGameMode = modes[0];
+            
             foreach(var mode in modes)
             {
                 var modeButton = Instantiate(modeButtonPrefab, modesButtonContent);
-                modeButton.SetMode(mode, modesToggleGroup);
                 modeButton.modeSelected += ModeSelected;
+                modeButton.SetMode(mode, modesToggleGroup);
             }
         }
 
