@@ -2599,6 +2599,7 @@ GameObject:
   m_Component:
   - component: {fileID: 927243829}
   - component: {fileID: 927243830}
+  - component: {fileID: 927243831}
   m_Layer: 5
   m_Name: GameModeSelection
   m_TagString: Untagged
@@ -2652,6 +2653,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &927243831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927243828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowSwitchOff: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -3335,7 +3349,8 @@ MonoBehaviour:
   layoutWidthDropdown: {fileID: 2059144323}
   layoutHeightDropdown: {fileID: 1475107990}
   modesButtonContent: {fileID: 927243829}
-  modeButtonPrefab: {fileID: 6219629601588519774, guid: 1cb6379ae9cd76c41b78791db67db92c, type: 3}
+  modesToggleGroup: {fileID: 927243831}
+  modeButtonPrefab: {fileID: 765609003250531720, guid: 80f9f994174d2be4b9bf175fae03d624, type: 3}
 --- !u!225 &1402713776
 CanvasGroup:
   m_ObjectHideFlags: 0
