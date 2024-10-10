@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace RickAndMemory
 {
-    public class MenuManager : MonoBehaviour, IMenuManager
+    public class PanelBasedMenuManager : BaseMenuManager
     {
         [SerializeField] private LoadingPanel loadingPanel;
         [SerializeField] private EndGamePanel endGamePanel;
@@ -16,25 +16,26 @@ namespace RickAndMemory
 
         private IPanel activePanel;
 
-        public void Initialize(Action<Layout, IModeManager> callback)
+
+        public override void Initialize(Action<Layout, IModeManager> callback)
         {
             SetAsActivePanel(gameSelectionPanel);
             gameSelectionPanel.SetStartGameCallback(callback);
         }
 
-        public void HideAll()
+        public override void HideAll()
         {
             SetAsActivePanel(null);
         }
 
-        public void SetEndGame(string text)
+        public override void SetEndGame(string text)
         {
             endGamePanel.SetMessage(text);
             endGamePanel.gameObject.SetActive(true);
             SetAsActivePanel(endGamePanel);
         }
 
-        public void SetLoading(bool active)
+        public override void SetLoading(bool active)
         {
             if (active)
                 SetAsActivePanel(loadingPanel);
@@ -42,14 +43,14 @@ namespace RickAndMemory
                 SetAsActivePanel(null);
         }
 
-        private void SetAsActivePanel(IPanel panel) 
+        private void SetAsActivePanel(IPanel panel)
         {
             if (activePanel != null)
                 activePanel.Hide();
 
             activePanel = panel;
 
-            if(activePanel != null)
+            if (activePanel != null)
                 activePanel.Show();
         }
     }

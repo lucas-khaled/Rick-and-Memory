@@ -9,19 +9,13 @@ namespace RickAndMemory.Core
 {
     public class GameManager : MonoBehaviour
     {
+        [SerializeField]
+        private BaseMenuManager uiManager;
         private ICardInfoProvider provider;
-        private IMenuManager uiManager;
 
         private void Awake()
         {
-            GetInterfaces();
             uiManager.Initialize(StartGame);
-        }
-
-        private void GetInterfaces()
-        {
-            uiManager = transform.GetComponentInChildren<IMenuManager>();
-            provider = transform.GetComponentInChildren<ICardInfoProvider>();
         }
 
         public async void StartGame(Layout layout, IModeManager modeManager) 
