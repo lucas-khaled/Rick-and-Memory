@@ -12,12 +12,14 @@ namespace RickAndMemory
     {
         [SerializeField] private LoadingPanel loadingPanel;
         [SerializeField] private EndGamePanel endGamePanel;
+        [SerializeField] private GameSelectionPanel gameSelectionPanel;
 
         private IPanel activePanel;
 
         public void Initialize(Action<Layout, IModeManager> callback)
         {
-                
+            SetAsActivePanel(gameSelectionPanel);
+            gameSelectionPanel.SetStartGameCallback(callback);
         }
 
         public void HideAll()
