@@ -14,7 +14,7 @@ namespace RickAndMemory.Core
         [SerializeField]
         private GameSetup gameSetup;
 
-        private void Awake()
+        private void Start()
         {
             uiManager.Initialize(StartGame, gameSetup.avaiableModes);
         }
