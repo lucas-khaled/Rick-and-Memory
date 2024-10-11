@@ -19,7 +19,7 @@ namespace RickAndMemory.UI
         public void SetLayout(Layout layout) 
         {
             this.layout = layout;
-            layoutManager.SetLayout(layout, cardsContent.rect);
+            layoutManager.SetLayout(layout, cardsContent.rect, cardPrefab.GetComponent<RectTransform>().rect);
         }
 
         public void InstantiateCards(CardInfo[] cardInfo) 
@@ -60,8 +60,9 @@ namespace RickAndMemory.UI
             var cardRectTransform = card.GetComponent<RectTransform>();
             cardRectTransform.anchorMax = Vector2.zero;
             cardRectTransform.anchorMin = Vector2.zero;
-
             cardRectTransform.anchoredPosition = position;
+
+            cardRectTransform.sizeDelta = layoutManager.GetCardSize();
 
             return card;
         }
