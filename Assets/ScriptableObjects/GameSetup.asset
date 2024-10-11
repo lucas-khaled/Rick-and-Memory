@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: GameSetup
   m_EditorClassIdentifier: 
   provider:
-    rid: -2
+    rid: 8642854335326191915
   avaiableModes:
-  - rid: 8642854335326191634
+  - rid: 8642854335326191916
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 8642854335326191634
+    - rid: 8642854335326191915
+      type: {class: RickAndMortyProvider, ns: RickAndMemory, asm: RickAndMemory}
+      data: 
+    - rid: 8642854335326191916
       type: {class: NormalModeManager, ns: RickAndMemory, asm: RickAndMemory}
       data: 
