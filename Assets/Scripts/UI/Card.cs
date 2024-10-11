@@ -1,6 +1,4 @@
 using RickAndMemory.Data;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace RickAndMemory
