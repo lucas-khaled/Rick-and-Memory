@@ -62,7 +62,7 @@ namespace RickAndMemory.UI
             cardRectTransform.anchorMin = Vector2.zero;
             cardRectTransform.anchoredPosition = position;
 
-            cardRectTransform.sizeDelta = layoutManager.GetCardSize();
+            cardRectTransform.localScale = layoutManager.GetCardScale();
 
             return card;
         }

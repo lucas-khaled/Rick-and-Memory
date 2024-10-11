@@ -10,11 +10,12 @@ namespace RickAndMemory
     {
         [SerializeField] private float verticalSpacing;
         [SerializeField] private float horizontalSpacing;
+        [SerializeField] private bool preserveCardSizeRatio = true;
 
         private Layout layout;
         private Rect contentRect;
         private Rect cardInitialRect;
-        private Vector2 cardFinalSize;
+        private Vector2 cardFinalScale;
         private Vector3[] positions;
 
         public void SetLayout(Layout layout, Rect content, Rect cardRect) 
@@ -28,6 +29,8 @@ namespace RickAndMemory
         private void Calculate()
         {
             positions = new Vector3[layout.Amount];
+
+            float ratio = cardInitialRect.width / cardInitialRect.height;
             float horizontalSectorSize = contentRect.width / layout.width;
             float verticalSectorSize = contentRect.height / layout.height;
 
@@ -39,7 +42,14 @@ namespace RickAndMemory
                 ? verticalSectorSize - verticalSpacing
                 : cardInitialRect.height;
 
-            cardFinalSize = new Vector2(finalWidth, finalHeight);
+            if (cardInitialRect.width - finalWidth > cardInitialRect.height - finalHeight)
+            {
+                finalHeight = finalWidth / ratio;
+            }
+            else
+                finalWidth = finalHeight * ratio;
+
+            cardFinalScale = new Vector2(finalWidth/cardInitialRect.width, finalHeight/cardInitialRect.height);
 
             for(int row = 0; row < layout.width; row++) 
             {
@@ -59,9 +69,9 @@ namespace RickAndMemory
             return positions[index];
         }
 
-        public Vector2 GetCardSize() 
+        public Vector2 GetCardScale() 
         {
-            return cardFinalSize;
+            return cardFinalScale;
         }
     }
 }
