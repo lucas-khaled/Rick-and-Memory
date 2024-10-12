@@ -1,3 +1,4 @@
+using RickAndMemory.Audio;
 using RickAndMemory.Data;
 using RickAndMemory.Modes;
 using RickAndMemory.UI;
@@ -9,6 +10,7 @@ namespace RickAndMemory.Modes
     public class NormalModeManager : IModeManager
     {
         public CardsManager cardsManagerPrefab;
+        public AudioClip winningGameClip;
 
         private CardsManager cardsManager;
 
@@ -39,6 +41,7 @@ namespace RickAndMemory.Modes
 
         private void OnCardsFinished()
         {
+            AudioManager.Instance.PlayClip(winningGameClip);
             cardsManager.gameObject.SetActive(false);
             gameFinishedCallback?.Invoke($"You've done it with {errors} errors");
         }

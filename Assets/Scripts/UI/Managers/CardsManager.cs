@@ -1,3 +1,4 @@
+using RickAndMemory.Audio;
 using RickAndMemory.Data;
 using System;
 using System.Collections;
@@ -13,6 +14,11 @@ namespace RickAndMemory.UI
         [SerializeField] private LayoutManager layoutManager;
         [SerializeField] private RectTransform cardsContent;
         [SerializeField] private Card cardPrefab;
+
+        [Header("Audios")]
+        [SerializeField] private AudioClip matchingCardAudio;
+        [SerializeField] private AudioClip unmatchingCardAudio;
+
 
         public Action<CardInfo> onCardsMatched;
         public Action OnCardsUnmatched;
@@ -120,6 +126,8 @@ namespace RickAndMemory.UI
 
         private void CardsMatched(Card firstSelectedCard, Card lastSelectedCard) 
         {
+            AudioManager.Instance.PlayClip(matchingCardAudio);
+
             cards.Remove(lastSelectedCard);
             Destroy(lastSelectedCard.gameObject);
 
@@ -134,6 +142,8 @@ namespace RickAndMemory.UI
 
         private void CardsUnmatched(Card firstSelectedCard, Card lastSelectedCard) 
         {
+            AudioManager.Instance.PlayClip(unmatchingCardAudio);
+
             lastSelectedCard.Hide();
             firstSelectedCard.Hide();
 
