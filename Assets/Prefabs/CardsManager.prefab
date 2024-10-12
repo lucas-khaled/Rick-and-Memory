@@ -79,6 +79,8 @@ MonoBehaviour:
   layoutManager: {fileID: 5888890327791640303}
   cardsContent: {fileID: 5888890328062514183}
   cardPrefab: {fileID: 2923425288837700085, guid: 2956bd3d2c453694882347f6c12c1c93, type: 3}
+  matchingCardAudio: {fileID: 8300000, guid: a0db8179ee8120c48b33f01633c598d6, type: 3}
+  unmatchingCardAudio: {fileID: 8300000, guid: e7c30e69d06af094e99dec030c76799f, type: 3}
 --- !u!114 &5888890327712903665
 MonoBehaviour:
   m_ObjectHideFlags: 0
