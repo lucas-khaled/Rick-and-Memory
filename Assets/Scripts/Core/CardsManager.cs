@@ -1,12 +1,12 @@
 using RickAndMemory.Audio;
 using RickAndMemory.Data;
+using RickAndMemory.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace RickAndMemory.UI
+namespace RickAndMemory.Core
 {
     [RequireComponent(typeof(Canvas))]
     public class CardsManager : MonoBehaviour
