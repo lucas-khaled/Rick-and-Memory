@@ -52,7 +52,7 @@ namespace RickAndMemory.UI
             isSelected = true;
             isAnimating = true;
 
-            AudioManager.Instance.PlayClip(flipCardClip);
+            AudioManager.Instance.PlayClip(flipCardClip, 1.4f);
             Sequence showSequence = DOTween.Sequence();
 
             showSequence.OnComplete(FinishedShowing);
@@ -82,7 +82,7 @@ namespace RickAndMemory.UI
             isSelected = false;
             isAnimating = true;
 
-            AudioManager.Instance.PlayClip(flipCardClip);
+            AudioManager.Instance.PlayClip(flipCardClip, 1.4f);
             Sequence hideSequence = DOTween.Sequence();
 
             hideSequence.OnComplete(() => isAnimating = false);
