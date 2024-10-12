@@ -15,6 +15,7 @@ namespace RickAndMemory.UI
         [SerializeField] private GameObject hiddenObject;
         [SerializeField] private Image thumb;
         [SerializeField] private TMP_Text itemName;
+        [SerializeField] private AudioSource flipCardAudio;
 
         public Action<Card> onShow;
 
@@ -46,9 +47,11 @@ namespace RickAndMemory.UI
         public void Show() 
         {
             if (isSelected || isAnimating) return;
+
             isSelected = true;
             isAnimating = true;
 
+            flipCardAudio?.Play();
             Sequence showSequence = DOTween.Sequence();
 
             showSequence.OnComplete(FinishedShowing);
@@ -78,6 +81,7 @@ namespace RickAndMemory.UI
             isSelected = false;
             isAnimating = true;
 
+            flipCardAudio?.Play();
             Sequence hideSequence = DOTween.Sequence();
 
             hideSequence.OnComplete(() => isAnimating = false);
