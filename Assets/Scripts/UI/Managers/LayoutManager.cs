@@ -15,7 +15,7 @@ namespace RickAndMemory
         private Layout layout;
         private Rect contentRect;
         private Rect cardInitialRect;
-        private Vector2 cardFinalScale;
+        private Vector2 cardFinalSize;
         private Vector3[] positions;
 
         public void SetLayout(Layout layout, Rect content, Rect cardRect) 
@@ -42,22 +42,25 @@ namespace RickAndMemory
                 ? verticalSectorSize - verticalSpacing
                 : cardInitialRect.height;
 
-            if (cardInitialRect.width - finalWidth > cardInitialRect.height - finalHeight)
+            if (preserveCardSizeRatio)
             {
-                finalHeight = finalWidth / ratio;
-            }
-            else
-                finalWidth = finalHeight * ratio;
-
-            cardFinalScale = new Vector2(finalWidth/cardInitialRect.width, finalHeight/cardInitialRect.height);
-
-            for(int row = 0; row < layout.width; row++) 
-            {
-                for(int column = 0; column < layout.height; column++) 
+                if (cardInitialRect.width - finalWidth > cardInitialRect.height - finalHeight)
                 {
-                    int index = row * layout.width + column;
-                    float xPos = horizontalSectorSize * 0.5f + horizontalSectorSize*column;
-                    float yPos = verticalSectorSize * 0.5f + verticalSectorSize*row;
+                    finalHeight = finalWidth / ratio;
+                }
+                else
+                    finalWidth = finalHeight * ratio;
+            }
+
+            cardFinalSize = new Vector2(finalWidth, finalHeight);
+
+            for(int x = 0; x < layout.height; x++) 
+            {
+                for(int y = 0; y < layout.width; y++) 
+                {
+                    int index = x * layout.width + y;
+                    float xPos = horizontalSectorSize * 0.5f + horizontalSectorSize*y;
+                    float yPos = verticalSectorSize * 0.5f + verticalSectorSize*x;
 
                     positions[index] = new Vector3(xPos, yPos);
                 }
@@ -69,9 +72,9 @@ namespace RickAndMemory
             return positions[index];
         }
 
-        public Vector2 GetCardScale() 
+        public Vector2 GetCardSize() 
         {
-            return cardFinalScale;
+            return cardFinalSize;
         }
     }
 }

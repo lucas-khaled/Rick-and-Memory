@@ -2,6 +2,7 @@ using RickAndMemory.Data;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace RickAndMemory.UI
 {
@@ -62,7 +63,7 @@ namespace RickAndMemory.UI
             cardRectTransform.anchorMin = Vector2.zero;
             cardRectTransform.anchoredPosition = position;
 
-            cardRectTransform.localScale = layoutManager.GetCardScale();
+            cardRectTransform.sizeDelta = layoutManager.GetCardSize();
 
             return card;
         }

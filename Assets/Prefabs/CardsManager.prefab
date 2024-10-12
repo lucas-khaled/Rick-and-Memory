@@ -170,6 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   verticalSpacing: 20
   horizontalSpacing: 20
+  preserveCardSizeRatio: 0
 --- !u!1 &5888890328062514182
 GameObject:
   m_ObjectHideFlags: 0
