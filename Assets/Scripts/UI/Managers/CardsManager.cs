@@ -17,6 +17,13 @@ namespace RickAndMemory.UI
         List<int> usedPositions;
         private Layout layout;
 
+        private Card firstSelectedCard;
+        private Card lastSelectedCard;
+
+        public Action<CardInfo> onCardsMatched;
+        public Action OnCardsUnmatched;
+        public Action OnCardsFinished;
+
         public void SetLayout(Layout layout) 
         {
             this.layout = layout;
@@ -53,6 +60,7 @@ namespace RickAndMemory.UI
         {
             Card card = Instantiate(cardPrefab, cardsContent);
             card.SetInfo(info);
+            card.onShow += OnCardSelected;
 
             int randomPositionIndex = UnityEngine.Random.Range(0, usedPositions.Count);
             Vector3 position = layoutManager.GetPosition(usedPositions[randomPositionIndex]);
@@ -76,6 +84,53 @@ namespace RickAndMemory.UI
             }
 
             cards.Clear();
+        }
+
+        private void OnCardSelected(Card card) 
+        {
+            if(firstSelectedCard != null) 
+            {
+                lastSelectedCard = card;
+                Invoke("CheckSelection", 1);
+                return;
+            }
+
+            firstSelectedCard = card;
+        }
+
+        private void CheckSelection() 
+        {
+            if (lastSelectedCard.CardInfo.id == firstSelectedCard.CardInfo.id)
+            {
+                CardsMatched();
+            }
+            else
+                CardsUnmatched();
+
+            lastSelectedCard = null;
+            firstSelectedCard = null;
+        }
+
+        private void CardsMatched() 
+        {
+            cards.Remove(lastSelectedCard);
+            Destroy(lastSelectedCard.gameObject);
+
+            cards.Remove(firstSelectedCard);
+            Destroy(firstSelectedCard.gameObject);
+
+            onCardsMatched?.Invoke(lastSelectedCard.CardInfo);
+
+            if (cards.Count == 0)
+                OnCardsFinished?.Invoke();
+        }
+
+        private void CardsUnmatched() 
+        {
+            lastSelectedCard.Hide();
+            firstSelectedCard.Hide();
+
+            OnCardsUnmatched?.Invoke();
         }
     }
 }

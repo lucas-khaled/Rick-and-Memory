@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 namespace RickAndMemory.Data
 {
-    public struct CardInfo
+    [Serializable]
+    public class CardInfo
     {
         public int id;
         public string name;

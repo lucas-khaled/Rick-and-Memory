@@ -15,29 +15,30 @@ namespace RickAndMemory.UI
         [SerializeField] private Image thumb;
         [SerializeField] private TMP_Text itemName;
 
-        public Action<CardInfo> onShow;
+        public Action<Card> onShow;
 
-        private CardInfo cardInfo;
+        public CardInfo CardInfo { get; private set; }
+
         private bool isSelected;
 
         public void SetInfo(CardInfo info) 
         {
-            cardInfo = info;
+            CardInfo = info;
 
-            itemName.text = cardInfo.name;
+            itemName.text = CardInfo.name;
             StartCoroutine(LoadThumb());
         }
 
         private IEnumerator LoadThumb() 
         {
-            yield return SpriteLoader.LoadSprite(cardInfo.cardURL, OnThumbLoaded);
+            yield return SpriteLoader.LoadSprite(CardInfo.cardURL, OnThumbLoaded);
         }
 
         private void OnThumbLoaded(Sprite sprite)
         {
             thumb.sprite = sprite;
             thumb.preserveAspect = true;
-            cardInfo.imageSprite = sprite;
+            CardInfo.imageSprite = sprite;
         }
 
         public void Show() 
@@ -48,7 +49,7 @@ namespace RickAndMemory.UI
             hiddenObject.SetActive(false);
             isSelected = true;
 
-            onShow?.Invoke(cardInfo);
+            onShow?.Invoke(this);
         }
 
         public void Hide() 
