@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace RickAndMemory.Core
 {
-    [RequireComponent(typeof(Canvas))]
     public class CardsManager : MonoBehaviour
     {
         [SerializeField] private LayoutManager layoutManager;
