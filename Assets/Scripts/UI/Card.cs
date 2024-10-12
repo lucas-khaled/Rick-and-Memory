@@ -1,3 +1,4 @@
+using DG.Tweening;
 using RickAndMemory.Data;
 using RickAndMemory.Utility;
 using System;
@@ -20,6 +21,7 @@ namespace RickAndMemory.UI
         public CardInfo CardInfo { get; private set; }
 
         private bool isSelected;
+        private bool isAnimating;
 
         public void SetInfo(CardInfo info) 
         {
@@ -43,12 +45,29 @@ namespace RickAndMemory.UI
 
         public void Show() 
         {
-            if (isSelected) return;
-
-            shownObject.SetActive(true);
-            hiddenObject.SetActive(false);
+            if (isSelected || isAnimating) return;
             isSelected = true;
+            isAnimating = true;
 
+            Sequence showSequence = DOTween.Sequence();
+
+            showSequence.OnComplete(FinishedShowing);
+            showSequence.Append(transform.DOLocalRotate(Vector3.up * 90, 0.2f).OnComplete(SetObjectsBySelectedState))
+                .Join(transform.DOScale(Vector3.one * 1.5f, 0.2f))
+                .Append(transform.DOLocalRotate(Vector3.zero, 0.2f))
+                .Join(transform.DOScale(Vector3.one, 0.2f))
+                .AppendInterval(1f);
+        }
+
+        private void SetObjectsBySelectedState() 
+        {
+            shownObject.SetActive(isSelected);
+            hiddenObject.SetActive(!isSelected);
+        }
+
+        private void FinishedShowing() 
+        {
+            isAnimating = false;
             onShow?.Invoke(this);
         }
 
@@ -56,9 +75,16 @@ namespace RickAndMemory.UI
         {
             if (!isSelected) return;
 
-            shownObject.SetActive(false);
-            hiddenObject.SetActive(true);
             isSelected = false;
+            isAnimating = true;
+
+            Sequence hideSequence = DOTween.Sequence();
+
+            hideSequence.OnComplete(() => isAnimating = false);
+            hideSequence.Append(transform.DOLocalRotate(Vector3.up * 90, 0.2f).OnComplete(SetObjectsBySelectedState))
+                .Append(transform.DOLocalRotate(Vector3.zero, 0.2f));
         }
+
+
     }
 }

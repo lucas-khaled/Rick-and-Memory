@@ -1,5 +1,6 @@
 using RickAndMemory.Data;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,16 +14,16 @@ namespace RickAndMemory.UI
         [SerializeField] private RectTransform cardsContent;
         [SerializeField] private Card cardPrefab;
 
-        private List<Card> cards = new List<Card>();
-        List<int> usedPositions;
-        private Layout layout;
-
-        private Card firstSelectedCard;
-        private Card lastSelectedCard;
-
         public Action<CardInfo> onCardsMatched;
         public Action OnCardsUnmatched;
         public Action OnCardsFinished;
+
+        private List<Card> cards = new List<Card>();
+        private Queue<Card> selectedCards = new Queue<Card>(); 
+        private List<int> usedPositions;
+        private Layout layout;
+        private bool isChecking;
+        
 
         public void SetLayout(Layout layout) 
         {
@@ -88,30 +89,36 @@ namespace RickAndMemory.UI
 
         private void OnCardSelected(Card card) 
         {
-            if(firstSelectedCard != null) 
+            selectedCards.Enqueue(card);
+            if (selectedCards.Count >= 2 && !isChecking) 
             {
-                lastSelectedCard = card;
-                Invoke("CheckSelection", 1);
+                StartCoroutine(CheckSelection());
                 return;
             }
-
-            firstSelectedCard = card;
         }
 
-        private void CheckSelection() 
+        private IEnumerator CheckSelection() 
         {
-            if (lastSelectedCard.CardInfo.id == firstSelectedCard.CardInfo.id)
+            isChecking = true;
+            while (selectedCards.Count >= 2)
             {
-                CardsMatched();
-            }
-            else
-                CardsUnmatched();
+                var firstSelectedCard = selectedCards.Dequeue();
+                var lastSelectedCard = selectedCards.Dequeue();
 
-            lastSelectedCard = null;
-            firstSelectedCard = null;
+                if (lastSelectedCard.CardInfo.id == firstSelectedCard.CardInfo.id)
+                {
+                    CardsMatched(firstSelectedCard, lastSelectedCard);
+                }
+                else
+                    CardsUnmatched(firstSelectedCard, lastSelectedCard);
+
+                yield return null;
+            }
+
+            isChecking = false;
         }
 
-        private void CardsMatched() 
+        private void CardsMatched(Card firstSelectedCard, Card lastSelectedCard) 
         {
             cards.Remove(lastSelectedCard);
             Destroy(lastSelectedCard.gameObject);
@@ -125,7 +132,7 @@ namespace RickAndMemory.UI
                 OnCardsFinished?.Invoke();
         }
 
-        private void CardsUnmatched() 
+        private void CardsUnmatched(Card firstSelectedCard, Card lastSelectedCard) 
         {
             lastSelectedCard.Hide();
             firstSelectedCard.Hide();
