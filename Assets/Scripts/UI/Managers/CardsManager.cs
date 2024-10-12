@@ -91,7 +91,7 @@ namespace RickAndMemory.UI
             if(firstSelectedCard != null) 
             {
                 lastSelectedCard = card;
-                Invoke("CheckSelection", 1);
+                CheckSelection();
                 return;
             }
 
