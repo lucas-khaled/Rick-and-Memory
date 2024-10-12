@@ -1,4 +1,5 @@
 using DG.Tweening;
+using RickAndMemory.Audio;
 using RickAndMemory.Data;
 using RickAndMemory.Utility;
 using System;
@@ -15,7 +16,7 @@ namespace RickAndMemory.UI
         [SerializeField] private GameObject hiddenObject;
         [SerializeField] private Image thumb;
         [SerializeField] private TMP_Text itemName;
-        [SerializeField] private AudioSource flipCardAudio;
+        [SerializeField] private AudioClip flipCardClip;
 
         public Action<Card> onShow;
 
@@ -51,7 +52,7 @@ namespace RickAndMemory.UI
             isSelected = true;
             isAnimating = true;
 
-            flipCardAudio?.Play();
+            AudioManager.Instance.PlayClip(flipCardClip);
             Sequence showSequence = DOTween.Sequence();
 
             showSequence.OnComplete(FinishedShowing);
@@ -81,7 +82,7 @@ namespace RickAndMemory.UI
             isSelected = false;
             isAnimating = true;
 
-            flipCardAudio?.Play();
+            AudioManager.Instance.PlayClip(flipCardClip);
             Sequence hideSequence = DOTween.Sequence();
 
             hideSequence.OnComplete(() => isAnimating = false);

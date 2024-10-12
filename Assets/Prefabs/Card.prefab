@@ -398,7 +398,7 @@ MonoBehaviour:
   hiddenObject: {fileID: 696036083640713922}
   thumb: {fileID: 8568889033897323096}
   itemName: {fileID: 2673003867577340109}
-  flipCardAudio: {fileID: 8874077940876869883}
+  flipCardClip: {fileID: 8300000, guid: f09db2823c3904d4e9cbfe733868ffa4, type: 3}
 --- !u!82 &8874077940876869883
 AudioSource:
   m_ObjectHideFlags: 0
