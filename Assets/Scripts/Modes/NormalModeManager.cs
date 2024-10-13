@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace RickAndMemory.Modes
 {
-    public class NormalModeManager : IModeManager
+    public class NormalModeManager : BaseModeManager
     {
         public CardsManager cardsManagerPrefab;
         public NormalInGameUIManager UIManagerPrefab;
@@ -17,61 +17,24 @@ namespace RickAndMemory.Modes
         public int baseScorePerMatch = 100;
         public int baseStreakBonus = 20;
 
-        private CardsManager cardsManager;
-        private NormalInGameUIManager UIManager;
-
-        private Action<string> gameFinishedCallback;
-        private int errors;
-        private int score;
         private int streak;
-        private Layout layout;
-        private List<CardInfo> cardInfos;
 
-        public Action OnUpdate { get; set; }
-
-        public string GetModeName()
+        public override string GetModeName()
         {
             return "Normal Mode";
         }
 
-        public void SetGameEndedCallback(Action<string> callback)
-        {
-            gameFinishedCallback += callback;
-        }
-
-        public void StartGame(Layout layout, List<CardInfo> cards, int errors = 0, int score = 0)
-        {
-            this.layout = layout;
-            this.cardInfos = cards;
-
-            this.errors = errors;
-            this.score = score;
-
-            InstantiateUIManagerIfNeeded();
-            InstantiateCardsManagerIfNeeded();
-
-            UIManager.gameObject.SetActive(true);
-            UIManager.SetErrors(errors);
-            UIManager.SetScore(score);
-
-            cardsManager.gameObject.SetActive(true);
-            cardsManager.SetLayout(layout);
-            cardsManager.InstantiateCards(cardInfos);
-
-            OnUpdate?.Invoke();
-        }
-
-        private void OnCardsFinished()
+        protected override void OnCardsFinished()
         {
             AudioManager.Instance.PlayClip(winningGameClip);
 
             cardsManager.gameObject.SetActive(false);
-            UIManager.gameObject.SetActive(false);
+            UIManagerObject.SetActive(false);
 
             gameFinishedCallback?.Invoke($"You've done it with {score} score and {errors} errors");
         }
 
-        private void CardsUnmatched()
+        protected override void CardsUnmatched()
         {
             streak = 0;
             errors++;
@@ -80,7 +43,7 @@ namespace RickAndMemory.Modes
             OnUpdate?.Invoke();
         }
 
-        private void CardsMatched(CardInfo card1, CardInfo card2)
+        protected override void CardsMatched(CardInfo card1, CardInfo card2)
         {
             score += baseScorePerMatch + baseStreakBonus * streak;
             streak++;
@@ -92,33 +55,14 @@ namespace RickAndMemory.Modes
             OnUpdate?.Invoke();
         }
 
-        private void InstantiateUIManagerIfNeeded()
+        protected override GameObject GetUIManagerPrefab()
         {
-            if (UIManager != null) return;
-
-            UIManager = GameObject.Instantiate(UIManagerPrefab);
+            return UIManagerPrefab.gameObject;
         }
 
-        private void InstantiateCardsManagerIfNeeded() 
+        protected override CardsManager GetCardsManagerPrefab()
         {
-            if (cardsManager != null) return;
-
-            cardsManager = GameObject.Instantiate(cardsManagerPrefab, UIManager.transform);
-            cardsManager.onCardsMatched += CardsMatched;
-            cardsManager.OnCardsUnmatched += CardsUnmatched;
-            cardsManager.OnCardsFinished += OnCardsFinished;
-        }
-
-        public SaveInfo GetSaveInfo()
-        {
-            return new SaveInfo
-            {
-                mode = GetModeName(),
-                layout = layout,
-                cardsInfo = cardInfos,
-                score = score,
-                errors = errors
-            };
+            return cardsManagerPrefab;
         }
     }
 }

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace RickAndMemory.UI
 {
     public interface IInGameUIManager
