@@ -27,6 +27,11 @@ namespace RickAndMemory.UI
             toggle.onValueChanged.AddListener(OnToggleSelected);
         }
 
+        public void Select() 
+        {
+            toggle.isOn = true;
+        }
+
         private void OnToggleSelected(bool selected) 
         {
             if(selected)
