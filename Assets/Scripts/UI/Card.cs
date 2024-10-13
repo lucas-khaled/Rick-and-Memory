@@ -14,6 +14,7 @@ namespace RickAndMemory.UI
     {
         [SerializeField] private GameObject shownObject;
         [SerializeField] private GameObject hiddenObject;
+        [SerializeField] private GameObject loadingObject;
         [SerializeField] private Image thumb;
         [SerializeField] private TMP_Text itemName;
         [SerializeField] private AudioClip flipCardClip;
@@ -27,10 +28,20 @@ namespace RickAndMemory.UI
 
         public void SetInfo(CardInfo info) 
         {
+            SetLoadingAnimation();
             CardInfo = info;
 
             itemName.text = CardInfo.name;
             StartCoroutine(LoadThumb());
+        }
+
+        private void SetLoadingAnimation() 
+        {
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(loadingObject.transform.DOLocalRotate(Vector3.forward* 180, 0.25f).SetEase(Ease.InCubic))
+                .Append(loadingObject.transform.DOLocalRotate(Vector3.forward * 360, 0.25f).SetEase(Ease.OutCubic))
+                .SetLoops(-1);
+            
         }
 
         private IEnumerator LoadThumb() 
@@ -40,6 +51,8 @@ namespace RickAndMemory.UI
 
         private void OnThumbLoaded(Sprite sprite)
         {
+            loadingObject.SetActive(false);
+            thumb.color = Color.white;
             thumb.sprite = sprite;
             thumb.preserveAspect = true;
             CardInfo.imageSprite = sprite;
