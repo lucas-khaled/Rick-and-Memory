@@ -1,3 +1,4 @@
+using RickAndMemory.Audio;
 using RickAndMemory.Core;
 using RickAndMemory.Data;
 using RickAndMemory.Modes;
@@ -11,9 +12,14 @@ namespace RickAndMemory
 {
     public abstract class BaseModeManager : IModeManager
     {
+        public int baseScorePerMatch = 100;
+        public int baseStreakBonus = 20;
+        public AudioClip winningGameClip;
+
         public Action OnUpdate { get; set; }
 
         protected Action<string> gameFinishedCallback;
+        protected int streak;
         protected int errors;
         protected int score;
         protected Layout layout;
@@ -22,13 +28,42 @@ namespace RickAndMemory
         protected CardsManager cardsManager;
         protected BaseInGameUIManager UIManager;
 
+
         public abstract string GetModeName();
 
         protected abstract BaseInGameUIManager GetUIManagerPrefab();
         protected abstract CardsManager GetCardsManagerPrefab();
-        protected abstract void CardsMatched(CardInfo card1, CardInfo card2);
-        protected abstract void CardsUnmatched();
-        protected abstract void OnCardsFinished();
+
+        protected virtual void CardsMatched(CardInfo card1, CardInfo card2) 
+        {
+            score += baseScorePerMatch + baseStreakBonus * streak;
+            streak++;
+
+            UIManager.SetScore(score);
+            cardInfos.Remove(card1);
+            cardInfos.Remove(card2);
+
+            OnUpdate?.Invoke();
+        }
+
+        protected virtual void CardsUnmatched() 
+        {
+            streak = 0;
+            errors++;
+
+            UIManager.SetErrors(errors);
+            OnUpdate?.Invoke();
+        }
+
+        protected virtual void OnCardsFinished() 
+        {
+            AudioManager.Instance.PlayClip(winningGameClip);
+
+            cardsManager.gameObject.SetActive(false);
+            UIManager.gameObject.SetActive(false);
+
+            gameFinishedCallback?.Invoke($"You've done it with {score} score and {errors} errors");
+        }
 
         public virtual SaveInfo GetSaveInfo()
         {
