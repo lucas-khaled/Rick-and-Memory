@@ -11,7 +11,7 @@ namespace RickAndMemory
     public class RickAndMortyProvider : ICardInfoProvider
     {
         private const string GET_ALL_CHARACTERS_URL = "https://rickandmortyapi.com/api/character";
-        public async Task<CardInfo[]> GetCards(int amount)
+        public async Task<List<CardInfo>> GetCards(int amount)
         {
             AllCharactersData allCharacters = await GetAllCharactersInfo();
             List<int> charactersIndexList = GenerateCharactersIndexList(allCharacters.info.count, amount);
@@ -106,12 +106,15 @@ namespace RickAndMemory
             }
         }
 
-        private CardInfo[] GetCardsInfo(AllCharactersData charactersData) 
+        private List<CardInfo> GetCardsInfo(AllCharactersData charactersData) 
         {
-            CardInfo[] infos = new CardInfo[charactersData.results.Length];
-            for (int i = 0; i<infos.Length; i++) 
+            List<CardInfo> infos = new List<CardInfo>();
+            for (int i = 0; i < charactersData.results.Length; i++)
             {
-                infos[i] = ConvertIntoCardInfo(charactersData.results[i]);
+                CardInfo cardInfo = ConvertIntoCardInfo(charactersData.results[i]);
+                CardInfo copy = new CardInfo(cardInfo);
+                infos.Add(cardInfo);
+                infos.Add(copy);
             }
 
             return infos;

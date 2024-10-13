@@ -19,7 +19,7 @@ namespace RickAndMemory.Core
         [SerializeField] private AudioClip unmatchingCardAudio;
 
 
-        public Action<CardInfo> onCardsMatched;
+        public Action<CardInfo, CardInfo> onCardsMatched;
         public Action OnCardsUnmatched;
         public Action OnCardsFinished;
 
@@ -28,7 +28,6 @@ namespace RickAndMemory.Core
         private List<int> usedPositions;
         private Layout layout;
         private bool isChecking;
-        
 
         public void SetLayout(Layout layout) 
         {
@@ -36,50 +35,61 @@ namespace RickAndMemory.Core
             layoutManager.SetLayout(layout, cardsContent.rect, cardPrefab.GetComponent<RectTransform>().rect);
         }
 
-        public void InstantiateCards(CardInfo[] cardInfo) 
+        public void InstantiateCards(List<CardInfo> cardInfo) 
         {
             ClearCards();
             InitializeUsedPositions();
-            for (int i = 0; i < layout.Amount*.5; i++) 
+
+            for (int i = 0; i < cardInfo.Count; i++) 
             {
-                int randomCardIndex = UnityEngine.Random.Range(0, cardInfo.Length);
-                CardInfo info = cardInfo[randomCardIndex];
+                CardInfo info = cardInfo[i];
 
-                Card card1 = InstantiateCard(info);
-                Card card2 = InstantiateCard(info);
+                int positionIndex = GetCardPositonIndex(info);
+                Card card = InstantiateCard(info, layoutManager.GetPosition(positionIndex));
+                info.positionIndex = positionIndex;
 
-                cards.Add(card1);
-                cards.Add(card2);
+                cards.Add(card);
             }
         }
 
         private void InitializeUsedPositions()
         {
             usedPositions = new List<int>();
-            for(int i = 0; i< layout.Amount; i++) 
+            for(int i = 0; i< layout.TotalAmount; i++) 
             {
                 usedPositions.Add(i);
             }
         }
 
-        private Card InstantiateCard(CardInfo info) 
+        private Card InstantiateCard(CardInfo info, Vector2 postion) 
         {
             Card card = Instantiate(cardPrefab, cardsContent);
             card.SetInfo(info);
             card.onShow += OnCardSelected;
 
-            int randomPositionIndex = UnityEngine.Random.Range(0, usedPositions.Count);
-            Vector3 position = layoutManager.GetPosition(usedPositions[randomPositionIndex]);
-            usedPositions.RemoveAt(randomPositionIndex);
-
             var cardRectTransform = card.GetComponent<RectTransform>();
             cardRectTransform.anchorMax = Vector2.zero;
             cardRectTransform.anchorMin = Vector2.zero;
-            cardRectTransform.anchoredPosition = position;
+            cardRectTransform.anchoredPosition = postion;
 
             cardRectTransform.sizeDelta = layoutManager.GetCardSize();
 
             return card;
+        }
+
+        private int GetCardPositonIndex(CardInfo card) 
+        {
+            if (card.positionIndex != -1)
+            {
+                usedPositions.Remove(card.positionIndex);
+                return card.positionIndex;
+            }
+            
+            int randomPositionIndex = UnityEngine.Random.Range(0, usedPositions.Count);
+            int positionIndex = usedPositions[randomPositionIndex];
+            usedPositions.RemoveAt(randomPositionIndex);
+
+            return positionIndex;
         }
 
         private void ClearCards() 
@@ -133,7 +143,7 @@ namespace RickAndMemory.Core
             cards.Remove(firstSelectedCard);
             Destroy(firstSelectedCard.gameObject);
 
-            onCardsMatched?.Invoke(lastSelectedCard.CardInfo);
+            onCardsMatched?.Invoke(firstSelectedCard.CardInfo, lastSelectedCard.CardInfo);
 
             if (cards.Count == 0)
                 OnCardsFinished?.Invoke();
