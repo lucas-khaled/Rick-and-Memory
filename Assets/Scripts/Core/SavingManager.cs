@@ -2,6 +2,7 @@ using RickAndMemory.Data;
 using RickAndMemory.UI;
 using System;
 using System.Collections.Generic;
+using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 
 namespace RickAndMemory.Core
@@ -9,9 +10,15 @@ namespace RickAndMemory.Core
     public static class SavingManager
     {
         private const string SAVE_KEY = "Save";
+        private static JsonSerializerSettings settings = new JsonSerializerSettings()
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        };
+
         public static void Save(SaveInfo saveInfo) 
         {
-            string saveJSON = JsonUtility.ToJson(saveInfo);
+            string saveJSON = JsonConvert.SerializeObject(saveInfo, settings);
             PlayerPrefs.SetString(SAVE_KEY, saveJSON);
         }
 
@@ -21,7 +28,7 @@ namespace RickAndMemory.Core
                 return null;
 
             string saveJSON = PlayerPrefs.GetString(SAVE_KEY);
-            SaveInfo saveInfo = JsonUtility.FromJson<SaveInfo>(saveJSON);
+            SaveInfo saveInfo = JsonConvert.DeserializeObject<SaveInfo>(saveJSON, settings);
             return saveInfo;
         }
 
@@ -37,7 +44,14 @@ namespace RickAndMemory.Core
         public string mode;
         public Layout layout;
         public List<CardInfo> cardsInfo;
+        public ModeInfo modeInfo;
+    }
+
+    [Serializable]
+    public class ModeInfo 
+    {
         public int score;
         public int errors;
+        public int streak;
     }
 }

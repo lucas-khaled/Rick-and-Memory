@@ -7,17 +7,17 @@ using UnityEngine;
 namespace RickAndMemory
 {
     [RequireComponent(typeof(Canvas))]
-    public class NormalInGameUIManager : MonoBehaviour, IInGameUIManager
+    public class NormalInGameUIManager : BaseInGameUIManager
     {
         [SerializeField] private TMP_Text errorsText;
         [SerializeField] private TMP_Text scoreText;
 
-        public void SetErrors(float errors)
+        public override void SetErrors(float errors)
         {
             errorsText.text = errors.ToString();
         }
 
-        public void SetScore(float score)
+        public override void SetScore(float score)
         {
             scoreText.text = score.ToString();
         }

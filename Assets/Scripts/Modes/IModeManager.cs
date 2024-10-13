@@ -8,7 +8,7 @@ namespace RickAndMemory.Modes
     public interface IModeManager
     {
         public Action OnUpdate { get; set; }
-        public void StartGame(Layout layout, List<CardInfo> cards, int errors = 0, int score = 0);
+        public void StartGame(Layout layout, List<CardInfo> cards, ModeInfo uiInfo);
         public void SetGameEndedCallback(Action<string> callback);
         public string GetModeName();
         public SaveInfo GetSaveInfo();

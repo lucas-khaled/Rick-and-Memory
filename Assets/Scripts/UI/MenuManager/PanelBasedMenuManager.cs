@@ -16,7 +16,6 @@ namespace RickAndMemory
 
         public override void Initialize(Action<Layout, IModeManager> callback, IModeManager[] avaliableModes)
         {
-            SetGameSelectionActive();
             gameSelectionPanel.SetModes(avaliableModes);
             gameSelectionPanel.SetStartGameCallback(callback);
         }
@@ -55,6 +54,11 @@ namespace RickAndMemory
 
             if (activePanel != null)
                 activePanel.Show();
+        }
+
+        public override void ShowInitialScreen()
+        {
+            SetGameSelectionActive();
         }
     }
 }

@@ -1,6 +1,7 @@
 using RickAndMemory.Data;
 using RickAndMemory.Modes;
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,6 +27,7 @@ namespace RickAndMemory.UI
         private CanvasGroup canvasGroup;
         private Layout actualSelectedLayout;
         private IModeManager selectedGameMode;
+        private List<ModeToggle> modeToggles = new List<ModeToggle>();
 
         private Action<Layout, IModeManager> startGameCallback;
 
@@ -45,14 +47,16 @@ namespace RickAndMemory.UI
 
         public void SetModes(IModeManager[] modes) 
         {
-            selectedGameMode = modes[0];
-            
             foreach(var mode in modes)
             {
-                var modeButton = Instantiate(modeButtonPrefab, modesButtonContent);
-                modeButton.modeSelected += ModeSelected;
-                modeButton.SetMode(mode, modesToggleGroup);
+                var modeToggle = Instantiate(modeButtonPrefab, modesButtonContent);
+                modeToggle.modeSelected += ModeSelected;
+                modeToggle.SetMode(mode, modesToggleGroup);
+
+                modeToggles.Add(modeToggle);
             }
+
+            modeToggles[0].Select();
         }
 
         private void ModeSelected(IModeManager mode)
@@ -94,7 +98,7 @@ namespace RickAndMemory.UI
 
         private void CheckLayoutIsValid()
         {
-            bool isValid = actualSelectedLayout.TotalAmount % 2 == 0;
+            bool isValid = actualSelectedLayout.TotalAmount > 2 && actualSelectedLayout.TotalAmount % 2 == 0;
             startGameButton.SetActive(isValid);
             notValidLayoutLabel.SetActive(!isValid);
         }

@@ -1,4 +1,5 @@
 using System;
+using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 
 namespace RickAndMemory.Data
@@ -9,6 +10,7 @@ namespace RickAndMemory.Data
         public int id;
         public string name;
         public string cardURL;
+        [JsonIgnore]
         public Sprite imageSprite;
         public int positionIndex;
 
