@@ -1,7 +1,6 @@
 using RickAndMemory.Attributes;
 using RickAndMemory.Modes;
 using RickAndMemory.Providers;
-using RickAndMemory.UI;
 using UnityEngine;
 
 namespace RickAndMemory

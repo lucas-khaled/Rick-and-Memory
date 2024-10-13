@@ -15,14 +15,17 @@ MonoBehaviour:
   provider:
     rid: 8642854337245610720
   avaiableModes:
-  - rid: 8642854337245610723
+  - rid: 8642854384600875008
   references:
     version: 2
     RefIds:
     - rid: 8642854337245610720
       type: {class: RickAndMortyProvider, ns: RickAndMemory, asm: RickAndMemory}
       data: 
-    - rid: 8642854337245610723
+    - rid: 8642854384600875008
       type: {class: NormalModeManager, ns: RickAndMemory.Modes, asm: RickAndMemory}
       data:
         cardsManagerPrefab: {fileID: 5888890327712903662, guid: d0e6c2a9a8e2c8e4e8fb48ae3f7f43a1, type: 3}
+        UIManagerPrefab: {fileID: 6619533434560153944, guid: 2cc17ff969132de4791ae2d78fb5f99f, type: 3}
+        winningGameClip: {fileID: 8300000, guid: 655ce0ab545bb7b48950be223e01dfab, type: 3}
+        baseScorePerMatch: 100
