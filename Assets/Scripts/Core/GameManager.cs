@@ -27,8 +27,9 @@ namespace RickAndMemory.Core
         private void Initialize() 
         {
             SaveInfo save = SavingManager.Load();
+            uiManager.Initialize(StartGame, gameSetup.avaiableModes);
 
-            if(save != null) 
+            if (save != null) 
             {
                 IModeManager mode = gameSetup.avaiableModes.FirstOrDefault(x => x.GetModeName() == save.mode);
                 if (mode != null)
@@ -40,7 +41,7 @@ namespace RickAndMemory.Core
                 }
             }
 
-            uiManager.Initialize(StartGame, gameSetup.avaiableModes);
+            uiManager.ShowInitialScreen();
         }
 
         public async void StartGame(Layout layout, IModeManager modeManager) 

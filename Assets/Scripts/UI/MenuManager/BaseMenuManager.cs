@@ -14,5 +14,6 @@ namespace RickAndMemory
         public abstract void SetEndGame(string text);
 
         public abstract void SetLoading(bool active);
+        public abstract void ShowInitialScreen();
     }
 }
