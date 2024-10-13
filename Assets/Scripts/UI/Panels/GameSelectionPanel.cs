@@ -47,8 +47,6 @@ namespace RickAndMemory.UI
 
         public void SetModes(IModeManager[] modes) 
         {
-            //selectedGameMode = modes[0];
-            
             foreach(var mode in modes)
             {
                 var modeToggle = Instantiate(modeButtonPrefab, modesButtonContent);
@@ -100,7 +98,7 @@ namespace RickAndMemory.UI
 
         private void CheckLayoutIsValid()
         {
-            bool isValid = actualSelectedLayout.TotalAmount % 2 == 0;
+            bool isValid = actualSelectedLayout.TotalAmount > 2 && actualSelectedLayout.TotalAmount % 2 == 0;
             startGameButton.SetActive(isValid);
             notValidLayoutLabel.SetActive(!isValid);
         }
