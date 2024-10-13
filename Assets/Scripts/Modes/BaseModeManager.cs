@@ -111,7 +111,6 @@ namespace RickAndMemory
             cardsManager.InstantiateCards(cardInfos);
 
             OnUpdate?.Invoke();
-
         }
 
         private void InstantiateUIManagerIfNeeded()

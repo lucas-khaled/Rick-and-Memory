@@ -16,7 +16,7 @@ MonoBehaviour:
     rid: 8642854337245610720
   avaiableModes:
   - rid: 8642854384600875008
-  - rid: 8642854397260595203
+  - rid: 8642854397260595204
   references:
     version: 2
     RefIds:
@@ -31,7 +31,7 @@ MonoBehaviour:
         winningGameClip: {fileID: 8300000, guid: 655ce0ab545bb7b48950be223e01dfab, type: 3}
         cardsManagerPrefab: {fileID: 5888890327712903662, guid: d0e6c2a9a8e2c8e4e8fb48ae3f7f43a1, type: 3}
         UIManagerPrefab: {fileID: 6619533434560153944, guid: 2cc17ff969132de4791ae2d78fb5f99f, type: 3}
-    - rid: 8642854397260595203
+    - rid: 8642854397260595204
       type: {class: TimeModeManager, ns: RickAndMemory, asm: RickAndMemory}
       data:
         baseScorePerMatch: 100
@@ -40,3 +40,4 @@ MonoBehaviour:
         timeInSecondsPerCard: 10
         cardsManagerPrefab: {fileID: 5888890327712903662, guid: d0e6c2a9a8e2c8e4e8fb48ae3f7f43a1, type: 3}
         UIManagerPrefab: {fileID: 7464445455056429736, guid: 820d8116a5fb147458a1df49b0a63223, type: 3}
+        timeOverClip: {fileID: 8300000, guid: ea848e269f71a8b4c9ea05cd9de30dbf, type: 3}

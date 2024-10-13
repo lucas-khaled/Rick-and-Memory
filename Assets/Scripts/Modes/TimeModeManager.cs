@@ -1,3 +1,4 @@
+using RickAndMemory.Audio;
 using RickAndMemory.Core;
 using RickAndMemory.Data;
 using RickAndMemory.UI;
@@ -13,6 +14,7 @@ namespace RickAndMemory
         public int timeInSecondsPerCard = 10;
         public CardsManager cardsManagerPrefab;
         public TimeInGameUIManager UIManagerPrefab;
+        public AudioClip timeOverClip;
 
         private TimeInGameUIManager timeUiManager;
 
@@ -51,6 +53,7 @@ namespace RickAndMemory
 
         private void OnFinishTime()
         {
+            AudioManager.Instance.PlayClip(timeOverClip);
             EndGame(FINISHED_TIME_STRING);
         }
 
@@ -64,7 +67,7 @@ namespace RickAndMemory
             return new TimeModeInfo()
             {
                 score = score,
-                time = timeUiManager.Time,
+                time = (timeUiManager != null) ? timeUiManager.Time : 0,
                 errors = errors,
                 streak = streak
             };
