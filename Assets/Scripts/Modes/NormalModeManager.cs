@@ -15,6 +15,7 @@ namespace RickAndMemory.Modes
         public NormalInGameUIManager UIManagerPrefab;
         public AudioClip winningGameClip;
         public int baseScorePerMatch = 100;
+        public int baseStreakBonus = 20;
 
         private CardsManager cardsManager;
         private NormalInGameUIManager UIManager;
@@ -22,6 +23,7 @@ namespace RickAndMemory.Modes
         private Action<string> gameFinishedCallback;
         private int errors;
         private int score;
+        private int streak;
         private Layout layout;
         private List<CardInfo> cardInfos;
 
@@ -71,6 +73,7 @@ namespace RickAndMemory.Modes
 
         private void CardsUnmatched()
         {
+            streak = 0;
             errors++;
 
             UIManager.SetErrors(errors);
@@ -79,7 +82,8 @@ namespace RickAndMemory.Modes
 
         private void CardsMatched(CardInfo card1, CardInfo card2)
         {
-            score += baseScorePerMatch;
+            score += baseScorePerMatch + baseStreakBonus * streak;
+            streak++;
 
             UIManager.SetScore(score);
             cardInfos.Remove(card1);
