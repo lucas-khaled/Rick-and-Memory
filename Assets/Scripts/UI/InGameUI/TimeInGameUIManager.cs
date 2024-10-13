@@ -9,19 +9,23 @@ namespace RickAndMemory
     {
         [SerializeField] private TMP_Text timeText;
 
+        public int Time { get; private set; }
+        
         private Action onTimeFinished;
-        private int time;
+        private Action onTimePassed;
         private Coroutine timerRoutine;
 
-        public void SetTime(int timeInSeconds, Action onTimeFinished) 
+        public void SetTime(int timeInSeconds, Action onTimeFinished, Action onTimePassed) 
         {
-            time = timeInSeconds;
+            Time = timeInSeconds;
             SetTimerText();
 
-            if(timerRoutine == null)
+            this.onTimeFinished = onTimeFinished;
+            this.onTimePassed = onTimePassed;
+
+            if (timerRoutine == null)
                timerRoutine = StartCoroutine(TimerCoroutine());
 
-            this.onTimeFinished = onTimeFinished;
         }
 
         public void StopTime() 
@@ -33,10 +37,11 @@ namespace RickAndMemory
 
         private IEnumerator TimerCoroutine() 
         {
-            while(time > 0) 
+            while(Time > 0) 
             {
                 yield return new WaitForSeconds(1);
-                time--;
+                Time--;
+                onTimePassed?.Invoke();
                 SetTimerText();
             }
 
@@ -46,7 +51,7 @@ namespace RickAndMemory
 
         private void SetTimerText() 
         {
-            TimeSpan t = TimeSpan.FromSeconds(time);
+            TimeSpan t = TimeSpan.FromSeconds(Time);
             timeText.text = t.ToString(@"mm\:ss");
         }
     }

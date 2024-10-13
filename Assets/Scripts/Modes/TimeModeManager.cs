@@ -39,13 +39,14 @@ namespace RickAndMemory
             base.OnCardsFinished();
         }
 
-        public override void StartGame(Layout layout, List<CardInfo> cards, int errors = 0, int score = 0)
+        public override void StartGame(Layout layout, List<CardInfo> cards, ModeInfo info)
         {
-            base.StartGame(layout, cards, errors, score);
+            base.StartGame(layout, cards, info);
 
             timeUiManager = (TimeInGameUIManager)UIManager;
-            var time = CalculateTime();
-            timeUiManager.SetTime(time, OnFinishTime);
+
+            var time = (info is TimeModeInfo timeInfo && timeInfo.time > 0) ? timeInfo.time : CalculateTime();
+            timeUiManager.SetTime(time, OnFinishTime, OnUpdate);
         }
 
         private void OnFinishTime()
@@ -56,6 +57,23 @@ namespace RickAndMemory
         private int CalculateTime() 
         {
             return layout.TotalAmount * timeInSecondsPerCard;
+        }
+
+        protected override ModeInfo GetModeInfo()
+        {
+            return new TimeModeInfo()
+            {
+                score = score,
+                time = timeUiManager.Time,
+                errors = errors,
+                streak = streak
+            };
+        }
+
+        [Serializable]
+        public class TimeModeInfo : ModeInfo 
+        {
+            public int time;
         }
     }
 }

@@ -35,7 +35,7 @@ namespace RickAndMemory.Core
                 {
                     selectedMode = mode;
                     uiManager.HideAll();
-                    InitializeModeManager(save.layout, save.cardsInfo, save.errors, save.score);
+                    InitializeModeManager(save.layout, save.cardsInfo, save.modeInfo);
                     return;
                 }
             }
@@ -54,11 +54,11 @@ namespace RickAndMemory.Core
             uiManager.SetLoading(false);
         }
 
-        private void InitializeModeManager(Layout layout, List<CardInfo> cardInfos, int errors = 0, int score = 0)
+        private void InitializeModeManager(Layout layout, List<CardInfo> cardInfos, ModeInfo uiInfo = null)
         {
             selectedMode.OnUpdate += OnUpdateModeManager;
             selectedMode.SetGameEndedCallback(EndGame);
-            selectedMode.StartGame(layout, cardInfos, errors, score);
+            selectedMode.StartGame(layout, cardInfos, uiInfo);
         }
 
         private void EndGame(string message) 

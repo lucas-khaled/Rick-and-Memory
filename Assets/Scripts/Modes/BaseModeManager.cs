@@ -34,6 +34,8 @@ namespace RickAndMemory
         protected abstract BaseInGameUIManager GetUIManagerPrefab();
         protected abstract CardsManager GetCardsManagerPrefab();
 
+        protected abstract ModeInfo GetModeInfo();
+
         protected virtual void CardsMatched(CardInfo card1, CardInfo card2) 
         {
             score += baseScorePerMatch + baseStreakBonus * streak;
@@ -79,8 +81,7 @@ namespace RickAndMemory
                 mode = GetModeName(),
                 layout = layout,
                 cardsInfo = cardInfos,
-                score = score,
-                errors = errors
+                modeInfo = GetModeInfo()
             };
         }
 
@@ -89,13 +90,15 @@ namespace RickAndMemory
             gameFinishedCallback += callback;
         }
 
-        public virtual void StartGame(Layout layout, List<CardInfo> cards, int errors = 0, int score = 0)
+        public virtual void StartGame(Layout layout, List<CardInfo> cards, ModeInfo info)
         {
             this.layout = layout;
             this.cardInfos = cards;
 
-            this.errors = errors;
-            this.score = score;
+            this.errors = (info == null) ? 0 :info.errors;
+            this.score = (info == null) ? 0 : info.score;
+            this.streak = (info == null) ? 0 : info.streak;
+
             InstantiateUIManagerIfNeeded();
             InstantiateCardsManagerIfNeeded();
 

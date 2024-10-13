@@ -28,5 +28,15 @@ namespace RickAndMemory.Modes
         {
             return cardsManagerPrefab;
         }
+
+        protected override ModeInfo GetModeInfo()
+        {
+            return new ModeInfo
+            {
+                score = score,
+                errors = errors,
+                streak = streak
+            };
+        }
     }
 }
