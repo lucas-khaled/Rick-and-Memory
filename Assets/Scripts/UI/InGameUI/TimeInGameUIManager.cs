@@ -33,6 +33,7 @@ namespace RickAndMemory
             if (timerRoutine == null) return;
 
             StopCoroutine(timerRoutine);
+            timerRoutine = null;
         }
 
         private IEnumerator TimerCoroutine() 
