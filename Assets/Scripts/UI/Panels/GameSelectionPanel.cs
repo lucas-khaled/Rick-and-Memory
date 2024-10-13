@@ -19,6 +19,10 @@ namespace RickAndMemory.UI
         [SerializeField] private ToggleGroup modesToggleGroup;
         [SerializeField] private ModeToggle modeButtonPrefab;
 
+        [Header("Game Objects")]
+        [SerializeField] private GameObject startGameButton;
+        [SerializeField] private GameObject notValidLayoutLabel;
+
         private CanvasGroup canvasGroup;
         private Layout actualSelectedLayout;
         private IModeManager selectedGameMode;
@@ -75,11 +79,20 @@ namespace RickAndMemory.UI
         private void OnWidthChanged(int value) 
         {
             actualSelectedLayout.width = value + 1;
+            CheckLayoutIsValid();
         }
 
         private void OnHeightChanged(int value) 
         {
             actualSelectedLayout.height = value + 1;
+            CheckLayoutIsValid();
+        }
+
+        private void CheckLayoutIsValid()
+        {
+            bool isValid = actualSelectedLayout.TotalAmount % 2 == 0;
+            startGameButton.SetActive(isValid);
+            notValidLayoutLabel.SetActive(!isValid);
         }
 
         public void StartGame()
