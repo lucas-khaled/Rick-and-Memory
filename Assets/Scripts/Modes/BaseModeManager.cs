@@ -20,12 +20,11 @@ namespace RickAndMemory
         protected List<CardInfo> cardInfos;
 
         protected CardsManager cardsManager;
-        protected IInGameUIManager UIManager;
-        protected GameObject UIManagerObject;
+        protected BaseInGameUIManager UIManager;
 
         public abstract string GetModeName();
 
-        protected abstract UnityEngine.GameObject GetUIManagerPrefab();
+        protected abstract BaseInGameUIManager GetUIManagerPrefab();
         protected abstract CardsManager GetCardsManagerPrefab();
         protected abstract void CardsMatched(CardInfo card1, CardInfo card2);
         protected abstract void CardsUnmatched();
@@ -58,7 +57,7 @@ namespace RickAndMemory
             InstantiateUIManagerIfNeeded();
             InstantiateCardsManagerIfNeeded();
 
-            UIManagerObject.SetActive(true);
+            UIManager.gameObject.SetActive(true);
             UIManager.SetErrors(errors);
             UIManager.SetScore(score);
 
@@ -74,15 +73,14 @@ namespace RickAndMemory
         {
             if (UIManager != null) return;
 
-            UIManagerObject = GameObject.Instantiate(GetUIManagerPrefab());
-            UIManager = UIManagerObject.GetComponent<IInGameUIManager>();
+            UIManager = GameObject.Instantiate(GetUIManagerPrefab());
         }
 
         private void InstantiateCardsManagerIfNeeded()
         {
             if (cardsManager != null) return;
 
-            cardsManager = GameObject.Instantiate(GetCardsManagerPrefab(), UIManagerObject.transform);
+            cardsManager = GameObject.Instantiate(GetCardsManagerPrefab(), UIManager.transform);
             cardsManager.onCardsMatched += CardsMatched;
             cardsManager.OnCardsUnmatched += CardsUnmatched;
             cardsManager.OnCardsFinished += OnCardsFinished;
