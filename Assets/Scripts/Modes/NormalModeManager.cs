@@ -29,7 +29,7 @@ namespace RickAndMemory.Modes
             AudioManager.Instance.PlayClip(winningGameClip);
 
             cardsManager.gameObject.SetActive(false);
-            UIManagerObject.SetActive(false);
+            UIManager.gameObject.SetActive(false);
 
             gameFinishedCallback?.Invoke($"You've done it with {score} score and {errors} errors");
         }
@@ -55,9 +55,9 @@ namespace RickAndMemory.Modes
             OnUpdate?.Invoke();
         }
 
-        protected override GameObject GetUIManagerPrefab()
+        protected override BaseInGameUIManager GetUIManagerPrefab()
         {
-            return UIManagerPrefab.gameObject;
+            return UIManagerPrefab;
         }
 
         protected override CardsManager GetCardsManagerPrefab()
