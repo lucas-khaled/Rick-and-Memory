@@ -22,12 +22,12 @@ namespace RickAndMemory
         protected int streak;
         protected int errors;
         protected int score;
+        protected bool runningGame;
         protected Layout layout;
         protected List<CardInfo> cardInfos;
 
         protected CardsManager cardsManager;
         protected BaseInGameUIManager UIManager;
-
 
         public abstract string GetModeName();
 
@@ -42,6 +42,8 @@ namespace RickAndMemory
             UIManager.SetScore(score);
             cardInfos.Remove(card1);
             cardInfos.Remove(card2);
+
+            runningGame = true;
 
             OnUpdate?.Invoke();
         }
@@ -59,10 +61,15 @@ namespace RickAndMemory
         {
             AudioManager.Instance.PlayClip(winningGameClip);
 
+            EndGame($"You've done it with {score} score and {errors} errors");
+        }
+
+        protected virtual void EndGame(string message) 
+        {
             cardsManager.gameObject.SetActive(false);
             UIManager.gameObject.SetActive(false);
 
-            gameFinishedCallback?.Invoke($"You've done it with {score} score and {errors} errors");
+            gameFinishedCallback?.Invoke(message);
         }
 
         public virtual SaveInfo GetSaveInfo()
