@@ -2,8 +2,6 @@ using RickAndMemory.Data;
 using RickAndMemory.Modes;
 using RickAndMemory.UI;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace RickAndMemory
@@ -16,10 +14,9 @@ namespace RickAndMemory
 
         private IPanel activePanel;
 
-
         public override void Initialize(Action<Layout, IModeManager> callback, IModeManager[] avaliableModes)
         {
-            SetAsActivePanel(gameSelectionPanel);
+            SetGameSelectionActive();
             gameSelectionPanel.SetModes(avaliableModes);
             gameSelectionPanel.SetStartGameCallback(callback);
         }
@@ -42,6 +39,11 @@ namespace RickAndMemory
                 SetAsActivePanel(loadingPanel);
             else if (activePanel is LoadingPanel)
                 SetAsActivePanel(null);
+        }
+
+        public void SetGameSelectionActive() 
+        {
+            SetAsActivePanel(gameSelectionPanel);
         }
 
         private void SetAsActivePanel(IPanel panel)

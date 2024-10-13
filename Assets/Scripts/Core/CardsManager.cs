@@ -133,7 +133,7 @@ namespace RickAndMemory.Core
             isChecking = false;
         }
 
-        private void CardsMatched(Card firstSelectedCard, Card lastSelectedCard) 
+        private void CardsMatched(Card firstSelectedCard, Card lastSelectedCard)
         {
             AudioManager.Instance.PlayClip(matchingCardAudio);
 
@@ -146,7 +146,10 @@ namespace RickAndMemory.Core
             onCardsMatched?.Invoke(firstSelectedCard.CardInfo, lastSelectedCard.CardInfo);
 
             if (cards.Count == 0)
+            {
+                isChecking = false;
                 OnCardsFinished?.Invoke();
+            }
         }
 
         private void CardsUnmatched(Card firstSelectedCard, Card lastSelectedCard) 
