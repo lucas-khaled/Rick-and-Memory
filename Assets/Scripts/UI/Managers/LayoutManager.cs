@@ -28,7 +28,7 @@ namespace RickAndMemory
 
         private void Calculate()
         {
-            positions = new Vector3[layout.Amount];
+            positions = new Vector3[layout.TotalAmount];
 
             float ratio = cardInitialRect.width / cardInitialRect.height;
             float horizontalSectorSize = contentRect.width / layout.width;

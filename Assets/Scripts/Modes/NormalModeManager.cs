@@ -4,6 +4,7 @@ using RickAndMemory.Data;
 using RickAndMemory.Modes;
 using RickAndMemory.UI;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RickAndMemory.Modes
@@ -21,6 +22,10 @@ namespace RickAndMemory.Modes
         private Action<string> gameFinishedCallback;
         private int errors;
         private int score;
+        private Layout layout;
+        private List<CardInfo> cardInfos;
+
+        public Action OnUpdate { get; set; }
 
         public string GetModeName()
         {
@@ -32,10 +37,13 @@ namespace RickAndMemory.Modes
             gameFinishedCallback += callback;
         }
 
-        public void StartGame(Layout layout, CardInfo[] cards)
+        public void StartGame(Layout layout, List<CardInfo> cards, int errors = 0, int score = 0)
         {
-            errors = 0;
-            score = 0;
+            this.layout = layout;
+            this.cardInfos = cards;
+
+            this.errors = errors;
+            this.score = score;
 
             InstantiateUIManagerIfNeeded();
             InstantiateCardsManagerIfNeeded();
@@ -46,7 +54,9 @@ namespace RickAndMemory.Modes
 
             cardsManager.gameObject.SetActive(true);
             cardsManager.SetLayout(layout);
-            cardsManager.InstantiateCards(cards);
+            cardsManager.InstantiateCards(cardInfos);
+
+            OnUpdate?.Invoke();
         }
 
         private void OnCardsFinished()
@@ -64,13 +74,18 @@ namespace RickAndMemory.Modes
             errors++;
 
             UIManager.SetErrors(errors);
+            OnUpdate?.Invoke();
         }
 
-        private void CardsMatched(CardInfo card)
+        private void CardsMatched(CardInfo card1, CardInfo card2)
         {
             score += baseScorePerMatch;
 
             UIManager.SetScore(score);
+            cardInfos.Remove(card1);
+            cardInfos.Remove(card2);
+
+            OnUpdate?.Invoke();
         }
 
         private void InstantiateUIManagerIfNeeded()
@@ -88,6 +103,18 @@ namespace RickAndMemory.Modes
             cardsManager.onCardsMatched += CardsMatched;
             cardsManager.OnCardsUnmatched += CardsUnmatched;
             cardsManager.OnCardsFinished += OnCardsFinished;
+        }
+
+        public SaveInfo GetSaveInfo()
+        {
+            return new SaveInfo
+            {
+                mode = GetModeName(),
+                layout = layout,
+                cardsInfo = cardInfos,
+                score = score,
+                errors = errors
+            };
         }
     }
 }
