@@ -2,7 +2,7 @@ using RickAndMemory.Data;
 using RickAndMemory.UI;
 using System;
 using System.Collections.Generic;
-using Unity.Plastic.Newtonsoft.Json;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace RickAndMemory.Core
