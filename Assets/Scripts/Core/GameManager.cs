@@ -26,6 +26,7 @@ namespace RickAndMemory.Core
 
         private void Initialize() 
         {
+            StyleManager.SetStyle(gameSetup.style);
             SaveInfo save = SavingManager.Load();
             uiManager.Initialize(StartGame, gameSetup.avaiableModes);
 
