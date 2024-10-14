@@ -17,6 +17,17 @@ MonoBehaviour:
   avaiableModes:
   - rid: 8642854384600875008
   - rid: 8642854397260595204
+  style:
+    cardCover: {fileID: 21300000, guid: 044c0d20a3a6f7f4fb609d729d374e73, type: 3}
+    cardCoverColor: {r: 0.62352943, g: 0.87058824, b: 0.8352941, a: 1}
+    cardBackgound: {fileID: 0}
+    cardBackgroundColor: {r: 0.8352941, g: 0.78431374, b: 0.72156864, a: 1}
+    backgroundSprite: {fileID: 0}
+    backgroundColor: {r: 0.1882353, g: 0.1882353, b: 0.19607843, a: 1}
+    textColor1: {r: 1, g: 1, b: 1, a: 1}
+    textColor2: {r: 0.62352943, g: 0.8705883, b: 0.8352942, a: 1}
+    buttonsColor1: {r: 0.9411765, g: 0.88235295, b: 0.2901961, a: 1}
+    buttonsColor2: {r: 0.69803923, g: 0.85490197, b: 0.92941177, a: 1}
   references:
     version: 2
     RefIds:
