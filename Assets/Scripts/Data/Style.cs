@@ -8,7 +8,8 @@ namespace RickAndMemory.Data
     {
         [Header("Card")]
         public Sprite cardCover;
-        public Sprite cardbackgound;
+        public Color cardCoverColor;
+        public Sprite cardBackgound;
         public Color cardBackgroundColor;
 
         [Header("Background")]

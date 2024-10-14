@@ -15,13 +15,16 @@ namespace RickAndMemory.Core
         public UnityEvent<Sprite> SetSprite;
         public UnityEvent<Color> SetColor;
 
-        private void Start()
+        private void Awake()
         {
+            StyleManager.OnStyleSet += SetStyle;
             SetStyle();
         }
 
         private void SetStyle() 
         {
+            if (StyleManager.actualStyle == null) return;
+
             FieldInfo info = typeof(Style).GetField(componentName);
 
             if (info == null)
